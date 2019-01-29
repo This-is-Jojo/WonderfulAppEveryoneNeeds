@@ -10,6 +10,5 @@ public class IndexController
     @GetMapping("/index")
     public void index()
     {
-
     }
 }
