@@ -14,6 +14,18 @@ public class Object
 
     private String name;
 
+    public Object()
+    {
+        this.objectId = BigInteger.valueOf(System.nanoTime());
+    }
+
+    public Object(String name, BigInteger parentId)
+    {
+        this.objectId = BigInteger.valueOf(System.nanoTime());
+        this.name = name;
+        this.parentId = parentId;
+    }
+
     public Object(BigInteger objectId, BigInteger parentId, String name)
     {
         this.objectId = objectId;

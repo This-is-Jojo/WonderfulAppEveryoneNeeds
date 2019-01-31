@@ -19,6 +19,8 @@ public class InitialData
     public void appReady(ApplicationReadyEvent event)
     {
         Object root = new Object(BigInteger.valueOf(10), null, "Top folder");
+        Object child = new Object("Children", root.getObjectId());
         repository.save(root);
+        repository.save(child);
     }
 }
