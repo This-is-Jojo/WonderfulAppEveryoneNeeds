@@ -1,6 +1,5 @@
 package com.jojo.application.db.entity;
 
-
 import javax.persistence.*;
 import java.math.BigInteger;
 
@@ -8,17 +7,16 @@ import java.math.BigInteger;
 @Table(name = "objects")
 public class Object
 {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public BigInteger objectId;
+    private BigInteger objectId;
 
     private BigInteger parentId;
 
     private String name;
 
-    public Object(BigInteger parentId, String name)
+    public Object(BigInteger objectId, BigInteger parentId, String name)
     {
+        this.objectId = objectId;
         this.parentId = parentId;
         this.name = name;
     }
@@ -56,5 +54,10 @@ public class Object
                 ", parentId=" + parentId +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public void setObjectId(BigInteger objectId)
+    {
+        this.objectId = objectId;
     }
 }
