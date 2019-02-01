@@ -36,7 +36,6 @@ public class ObjectController
     @PostMapping("/objects/")
     public Object createObject(@RequestBody Object object)
     {
-        object.setObjectId(objectIdGenerator.generateObjectId());
         return objects.save(object);
     }
 
@@ -46,7 +45,7 @@ public class ObjectController
     {
         return objects.findById(objectId).map(object -> {
             object.setName(objectRequest.getName());
-            object.setParentId(objectRequest.getParentId());
+            object.setParent(objectRequest.getParent());
             return objects.save(object);
         }).orElseThrow(() -> new RuntimeException("Cannot update object with objectId = " + objectId));
     }

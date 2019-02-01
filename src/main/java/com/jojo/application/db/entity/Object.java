@@ -1,51 +1,41 @@
 package com.jojo.application.db.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "objects")
 public class Object
 {
     @Id
+    @GenericGenerator(name = "objectIdGenerator", strategy = "com.jojo.application.db.components.ObjectIdGenerator")
+    @GeneratedValue(generator = "objectIdGenerator")
+    @Column(name = "object_id")
     private BigInteger objectId;
 
-    private BigInteger parentId;
-
+    @Column(name = "name")
     private String name;
 
-    public Object()
-    {
-        this.objectId = BigInteger.valueOf(System.nanoTime());
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="parent_id")
+    private Object parent;
 
-    public Object(String name, BigInteger parentId)
-    {
-        this.objectId = BigInteger.valueOf(System.nanoTime());
-        this.name = name;
-        this.parentId = parentId;
-    }
+    @OneToMany(mappedBy="parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    private Set<Object> children = new HashSet<>();
 
-    public Object(BigInteger objectId, BigInteger parentId, String name)
+    public Object(String name, Object parent)
     {
-        this.objectId = objectId;
-        this.parentId = parentId;
         this.name = name;
+        this.parent = parent;
     }
 
     public BigInteger getObjectId()
     {
         return objectId;
-    }
-
-    public BigInteger getParentId()
-    {
-        return parentId;
-    }
-
-    public void setParentId(BigInteger parentId)
-    {
-        this.parentId = parentId;
     }
 
     public String getName()
@@ -58,18 +48,34 @@ public class Object
         this.name = name;
     }
 
+    public Object getParent()
+    {
+        return parent;
+    }
+
+    public void setParent(Object parent)
+    {
+        this.parent = parent;
+    }
+
+    public Set<Object> getChildren()
+    {
+        return children;
+    }
+
+    public void setChildren(Set<Object> children)
+    {
+        this.children = children;
+    }
+
     @Override
     public String toString()
     {
         return "Object{" +
                 "objectId=" + objectId +
-                ", parentId=" + parentId +
                 ", name='" + name + '\'' +
+                ", parent=" + parent +
+                ", children=" + children +
                 '}';
-    }
-
-    public void setObjectId(BigInteger objectId)
-    {
-        this.objectId = objectId;
     }
 }

@@ -1,22 +1,21 @@
 package com.jojo.application.db.components;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerator;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public class ObjectIdGenerator
+public class ObjectIdGenerator implements IdentifierGenerator
 {
-    private AtomicLong LAST_TIME_MS;
+    private AtomicLong LAST_TIME_MS = new AtomicLong();
 
-    public ObjectIdGenerator()
-    {
-        this.LAST_TIME_MS = new AtomicLong();
-    }
-
-    public BigInteger generateObjectId()
+    @Override
+    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException
     {
         long now = System.nanoTime();
         while (true)
@@ -31,6 +30,5 @@ public class ObjectIdGenerator
                 return BigInteger.valueOf(now);
             }
         }
-
     }
 }
