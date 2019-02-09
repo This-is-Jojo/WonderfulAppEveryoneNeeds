@@ -6,7 +6,6 @@ import org.hibernate.id.IdentifierGenerator;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
@@ -27,7 +26,7 @@ public class ObjectIdGenerator implements IdentifierGenerator
             }
             if (LAST_TIME_MS.compareAndSet(lastTime, now))
             {
-                return BigInteger.valueOf(now);
+                return now;
             }
         }
     }

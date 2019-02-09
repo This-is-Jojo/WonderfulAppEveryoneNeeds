@@ -20,8 +20,7 @@ public class InitialData
     public void appReady(ApplicationReadyEvent event)
     {
         Object root = new Object( "Top folder", null);
-        Object child = new Object("Children", null);
-        child.setParent(root);
+        Object child = new Object("Children", root);
         repository.save(root);
         repository.save(child);
     }

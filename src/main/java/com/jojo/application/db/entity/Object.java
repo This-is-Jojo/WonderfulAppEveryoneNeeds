@@ -3,7 +3,6 @@ package com.jojo.application.db.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,10 +13,8 @@ public class Object
     @Id
     @GenericGenerator(name = "objectIdGenerator", strategy = "com.jojo.application.db.components.ObjectIdGenerator")
     @GeneratedValue(generator = "objectIdGenerator")
-    @Column(name = "object_id")
-    private BigInteger objectId;
+    private long objectId;
 
-    @Column(name = "name")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,7 +30,7 @@ public class Object
         this.parent = parent;
     }
 
-    public BigInteger getObjectId()
+    public long getObjectId()
     {
         return objectId;
     }
