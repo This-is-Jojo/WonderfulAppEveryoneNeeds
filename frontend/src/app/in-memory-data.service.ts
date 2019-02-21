@@ -11,14 +11,18 @@ export class InMemoryDataService implements InMemoryDbService {
     const top = new GenericObject( 'Top', null, 10);
     const documents = new GenericObject('Documents', top, 100);
     const inventory = new GenericObject( 'Inventory', top, 200);
-    const document = new GenericObject( 'Document', documents, 110);
+    const document = new GenericObject( 'Document 1', documents, 110);
     const entity = new GenericObject( 'Entity', inventory, 210);
+    const document2 = new GenericObject( 'Document 2', documents, 120);
+    const document3 = new GenericObject( 'File', documents, 130);
 
     objects.push(top);
     objects.push(documents);
     objects.push(inventory);
     objects.push(document);
     objects.push(entity);
+    objects.push(document2);
+    objects.push(document3);
 
     return {objects};
   }

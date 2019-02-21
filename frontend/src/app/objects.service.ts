@@ -25,17 +25,17 @@ export class ObjectsService {
   getObjectById(id: number): Observable<GenericObject> {
     const url = `${this.objectsApiUrl}/${id}`;
     return this.http.get<GenericObject>(url).pipe(
-      tap(object => this.log(`fetched object id=${id} with parentObj=${object.parentObject.name}`)),
+      tap(object => this.log(`fetched object id=${id}`)),
       catchError(this.handleError<GenericObject>(`getObjectById id=${id}`))
     );
   }
 
-  getChildrenObjects(parentId: number): Observable<GenericObject[]> {
-    const url = `${this.objectsApiUrl}/?parentObject=${this.getObjectById(parentId)}`;
+  getChildrenObjects(parentObject: GenericObject): Observable<GenericObject[]> {
+    const url = `${this.objectsApiUrl}/?parentId=^${parentObject.id}$`;
     return this.http.get<GenericObject[]>(url)
       .pipe(
-      tap(_ => this.log(`fetched objects with parentId=${parentId}`)),
-      catchError(this.handleError<GenericObject[]>(`getChildrenObjects id=${parentId}`))
+      tap(_ => this.log(`fetched objects with parentId=${parentObject.id}`)),
+      catchError(this.handleError<GenericObject[]>(`getChildrenObjects id=${parentObject}`))
     );
   }
 

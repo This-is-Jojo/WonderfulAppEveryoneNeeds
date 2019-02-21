@@ -1,4 +1,12 @@
-<a routerLink="/objects/{{currentObject.parentObject.id}}">{{currentObject.parentObject.name}}</a>
+<div *ngIf="parentObject != null; else elseBlock"><a routerLink="/objects/{{parentObject.id}}">{{parentObject.name}}</a></div>
+<ng-template #elseBlock>Top</ng-template>
 <p>
   Current Object: {{currentObject.name}}
 </p>
+<div *ngIf="childrenObjects != null">
+  <ul class="childrenObjects">
+    <li *ngFor="let child of childrenObjects">
+      <a routerLink="/objects/{{child.id}}">{{child.name}}</a>
+    </li>
+  </ul>
+</div>

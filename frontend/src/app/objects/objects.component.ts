@@ -3,7 +3,7 @@ import {GenericObject} from '../generic-object';
 import {ObjectsService} from '../objects.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-objects',
@@ -13,7 +13,7 @@ import {Observable} from 'rxjs';
 export class ObjectsComponent implements OnInit {
   currentObject: GenericObject;
   parentObject: GenericObject;
-  childrenObjects: Observable<GenericObject[]>;
+  childrenObjects: GenericObject[];
 
   constructor(
     private objectService: ObjectsService,
@@ -26,14 +26,27 @@ export class ObjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getObject();
-    this.parentObject = this.currentObject.parentObject;
-    this.childrenObjects = this.objectService.getChildrenObjects(this.currentObject.id);
+    // of(this.currentObject).pipe().subscribe(object => this.parentObject = object.parentObject);
+    // this.parentObject = this.currentObject.parentObject;
+    // this.childrenObjects = this.objectService.getChildrenObjects(this.currentObject.id);
   }
 
   getObject(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.objectService.getObjectById(id)
-      .subscribe(object => this.currentObject = object);
+      .subscribe(object => this.fillValues(object));
+  }
+
+  getChildren(parentObject: GenericObject): void {
+    this.objectService.getChildrenObjects(parentObject)
+      .subscribe(objects => this.childrenObjects = objects);
+  }
+
+
+  fillValues(object: GenericObject): void {
+    this.currentObject = object;
+    this.parentObject = object.parentObject;
+    this.getChildren(object);
   }
 
   goBack(): void {
