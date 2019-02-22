@@ -1,0 +1,14 @@
+<p>
+  Create object:
+</p>
+<label>Name:
+  <input #objectName/>
+</label>
+<p>
+  <button (click)="createObject(objectName.value); objectName.value=''">
+    Create
+  </button>
+</p>
+<p>
+  <button (click)="goBack()">go back</button>
+</p>

@@ -3,7 +3,6 @@ import {GenericObject} from '../generic-object';
 import {ObjectsService} from '../objects.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
-import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-objects',
@@ -26,15 +25,17 @@ export class ObjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getObject();
-    // of(this.currentObject).pipe().subscribe(object => this.parentObject = object.parentObject);
-    // this.parentObject = this.currentObject.parentObject;
-    // this.childrenObjects = this.objectService.getChildrenObjects(this.currentObject.id);
   }
 
   getObject(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.objectService.getObjectById(id)
       .subscribe(object => this.fillValues(object));
+  }
+
+  getParentObject(parentId: number): void {
+    this.objectService.getObjectById(parentId)
+      .subscribe(object => this.parentObject = object);
   }
 
   getChildren(parentObject: GenericObject): void {
@@ -45,7 +46,9 @@ export class ObjectsComponent implements OnInit {
 
   fillValues(object: GenericObject): void {
     this.currentObject = object;
-    this.parentObject = object.parentObject;
+    if (object.parentId) {
+      this.getParentObject(object.parentId);
+    }
     this.getChildren(object);
   }
 
@@ -56,13 +59,6 @@ export class ObjectsComponent implements OnInit {
   save(): void {
     this.objectService.updateObject(this.currentObject)
       .subscribe(() => this.goBack());
-  }
-
-  createObject(name: string): void {
-    name = name.trim();
-    const newObject: GenericObject = new GenericObject(name, this.parentObject);
-    if (!name) { return; }
-    this.objectService.createObject(newObject);
   }
 
   delete(object: GenericObject): void {

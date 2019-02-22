@@ -1,14 +1,12 @@
 export class GenericObject {
 
-  constructor( name: string, parentObject: GenericObject, id?: number) {
+  constructor( name: string, parentId?: number, id?: number) {
     this.id = id;
     this.name = name;
-    this.parentObject = parentObject;
-    this.parentId = parentObject != null ?  parentObject.id : null;
+    this.parentId = parentId;
   }
 
   id: number;
   name: string;
-  parentObject: GenericObject;
   parentId: number;
 }
