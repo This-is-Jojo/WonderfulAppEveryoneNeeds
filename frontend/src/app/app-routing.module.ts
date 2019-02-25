@@ -5,8 +5,8 @@ import {ObjectCreationComponent} from './object-creation/object-creation.compone
 
 const routes: Routes = [
   { path: '', redirectTo: '/objects/10', pathMatch: 'full' },
-  { path: 'objects/:id', component: ObjectsComponent},
-  { path: 'objects/:id/create', component: ObjectCreationComponent}
+  { path: 'objects/:objectId', component: ObjectsComponent},
+  { path: 'objects/:objectId/create', component: ObjectCreationComponent}
 ];
 
 @NgModule({

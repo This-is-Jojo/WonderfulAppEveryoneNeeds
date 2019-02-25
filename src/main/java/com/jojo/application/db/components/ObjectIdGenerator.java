@@ -1,20 +1,23 @@
 package com.jojo.application.db.components;
 
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerator;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public class ObjectIdGenerator implements IdentifierGenerator
+public class ObjectIdGenerator
 {
+    private static class InstanceHolder {
+        public static ObjectIdGenerator instance = new ObjectIdGenerator();
+    }
+
+    public static ObjectIdGenerator getInstance() {
+        return InstanceHolder.instance;
+    }
+
     private AtomicLong LAST_TIME_MS = new AtomicLong();
 
-    @Override
-    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException
+    public long generate()
     {
         long now = System.nanoTime();
         while (true)

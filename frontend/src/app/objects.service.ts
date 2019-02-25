@@ -15,26 +15,26 @@ const httpOptions = {
 })
 export class ObjectsService {
 
-  private objectsApiUrl = 'api/objects';  // URL to web api
+  private objectsApiUrl = '//localhost:8080/objects';
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
   /** GET Object by id. Will 404 if id not found */
-  getObjectById(id: number): Observable<GenericObject> {
-    const url = `${this.objectsApiUrl}/${id}`;
+  getObjectById(objectId: number): Observable<GenericObject> {
+    const url = `${this.objectsApiUrl}/${objectId}`;
     return this.http.get<GenericObject>(url).pipe(
-      tap(object => this.log(`fetched object id=${id}`)),
-      catchError(this.handleError<GenericObject>(`getObjectById id=${id}`))
+      tap(object => this.log(`fetched object id=${objectId}`)),
+      catchError(this.handleError<GenericObject>(`getObjectById id=${objectId}`))
     );
   }
 
   getChildrenObjects(parentObject: GenericObject): Observable<GenericObject[]> {
-    const url = `${this.objectsApiUrl}/?parentId=^${parentObject.id}$`;
+    const url = `${this.objectsApiUrl}/parentId:${parentObject.objectId}`;
     return this.http.get<GenericObject[]>(url)
       .pipe(
-      tap(_ => this.log(`fetched objects with parentId=${parentObject.id}`)),
+      tap(_ => this.log(`fetched objects with parentId=${parentObject.objectId}`)),
       catchError(this.handleError<GenericObject[]>(`getChildrenObjects id=${parentObject}`))
     );
   }
@@ -57,14 +57,14 @@ export class ObjectsService {
 
   createObject(object: GenericObject): Observable<GenericObject> {
     return this.http.post<GenericObject>(this.objectsApiUrl, object, httpOptions).pipe(
-      tap((newObject: GenericObject) => this.log(`Object created w/ id=${newObject.id}`)),
+      tap((newObject: GenericObject) => this.log(`Object created w/ id=${newObject.objectId}`)),
       catchError(this.handleError<GenericObject>('createObject'))
     );
   }
 
   /** DELETE: delete object from the server */
   deleteObject(object: GenericObject | number): Observable<GenericObject> {
-    const id = typeof object === 'number' ? object : object.id;
+    const id = typeof object === 'number' ? object : object.objectId;
     const url = `${this.objectsApiUrl}/${id}`;
 
     return this.http.delete<GenericObject>(url, httpOptions).pipe(
@@ -76,7 +76,7 @@ export class ObjectsService {
   /** PUT: update object on the server */
   updateObject(object: GenericObject): Observable<any> {
     return this.http.put(this.objectsApiUrl, object, httpOptions).pipe(
-      tap(_ => this.log(`Updated object id=${object.id}`)),
+      tap(_ => this.log(`Updated object id=${object.objectId}`)),
       catchError(this.handleError<any>('updateObject'))
     );
   }

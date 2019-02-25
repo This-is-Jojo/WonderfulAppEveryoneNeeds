@@ -1,19 +1,23 @@
-<div *ngIf="parentObject != null; else elseBlock"><a routerLink="/objects/{{parentObject.id}}">{{parentObject.name}}</a>
+<div *ngIf="parentObject != null; else elseBlock"><a routerLink="/objects/{{parentObject.objectId}}">{{parentObject.name}}</a>
 </div>
 <ng-template #elseBlock>Top</ng-template>
-<p>
-  Current Object: {{currentObject.name}}
-</p>
+<div *ngIf="currentObject">
+  <p>
+    Current Object: {{currentObject.name}}
+  </p>
+</div>
 <div *ngIf="childrenObjects != null">
   <ul class="childrenObjects">
     <li *ngFor="let child of childrenObjects">
-      <a routerLink="/objects/{{child.id}}">{{child.name}}</a>
+      <a routerLink="/objects/{{child.objectId}}">{{child.name}}</a>
       <button (click)="delete(child)">
         X
       </button>
     </li>
   </ul>
 </div>
-<p>
-  <a routerLink="/objects/{{currentObject.id}}/create">New child</a>
-</p>
+<div *ngIf="currentObject">
+  <p>
+    <a routerLink="/objects/{{currentObject.objectId}}/create">New child</a>
+  </p>
+</div>

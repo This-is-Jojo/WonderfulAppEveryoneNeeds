@@ -1,36 +1,40 @@
 package com.jojo.application.db.entity;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.jojo.application.db.components.ObjectIdGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "objects")
 public class Object
 {
     @Id
-    @GenericGenerator(name = "objectIdGenerator", strategy = "com.jojo.application.db.components.ObjectIdGenerator")
-    @GeneratedValue(generator = "objectIdGenerator")
-    private long objectId;
+    private Long objectId;
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="parent_id")
-    private Object parent;
+    private Long parentId;
 
-    @OneToMany(mappedBy="parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-    private Set<Object> children = new HashSet<>();
-
-    public Object(String name, Object parent)
+    public Object()
     {
-        this.name = name;
-        this.parent = parent;
+        this.objectId = ObjectIdGenerator.getInstance().generate();
     }
 
-    public long getObjectId()
+    public Object(Long objectId, String name, Long parentId)
+    {
+        this.objectId = objectId;
+        this.name = name;
+        this.parentId = parentId;
+    }
+
+    public Object(String name, Long parentId)
+    {
+        this.objectId = ObjectIdGenerator.getInstance().generate();
+        this.name = name;
+        this.parentId = parentId;
+    }
+
+    public Long getObjectId()
     {
         return objectId;
     }
@@ -45,24 +49,14 @@ public class Object
         this.name = name;
     }
 
-    public Object getParent()
+    public Long getParentId()
     {
-        return parent;
+        return parentId;
     }
 
-    public void setParent(Object parent)
+    public void setParentId(Long parentId)
     {
-        this.parent = parent;
-    }
-
-    public Set<Object> getChildren()
-    {
-        return children;
-    }
-
-    public void setChildren(Set<Object> children)
-    {
-        this.children = children;
+        this.parentId = parentId;
     }
 
     @Override
@@ -71,8 +65,7 @@ public class Object
         return "Object{" +
                 "objectId=" + objectId +
                 ", name='" + name + '\'' +
-                ", parent=" + parent +
-                ", children=" + children +
+                ", parentId=" + parentId +
                 '}';
     }
 }

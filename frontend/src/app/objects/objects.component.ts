@@ -28,7 +28,7 @@ export class ObjectsComponent implements OnInit {
   }
 
   getObject(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = +this.route.snapshot.paramMap.get('objectId');
     this.objectService.getObjectById(id)
       .subscribe(object => this.fillValues(object));
   }

@@ -21,13 +21,12 @@ export class ObjectCreationComponent implements OnInit {
   }
 
   createObject(name: string): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = +this.route.snapshot.paramMap.get('objectId');
     name = name.trim();
     const newObject: GenericObject = new GenericObject(name, id);
     if (!name) { return; }
     this.objectService.createObject(newObject)
       .subscribe(_ => this.goBack());
-    // this.goBack();
   }
 
   goBack(): void {

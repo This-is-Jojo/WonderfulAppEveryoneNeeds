@@ -1,24 +1,22 @@
 package com.jojo.application.controller;
 
-import com.jojo.application.db.components.ObjectIdGenerator;
 import com.jojo.application.db.entity.Object;
 import com.jojo.application.db.repository.ObjectRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ObjectController
 {
     final private ObjectRepository objects;
-    final private ObjectIdGenerator objectIdGenerator;
 
-    public ObjectController(ObjectRepository repository, ObjectIdGenerator objectIdGenerator)
+    public ObjectController(ObjectRepository repository)
     {
         this.objects = repository;
-        this.objectIdGenerator = objectIdGenerator;
     }
 
     @GetMapping("/objects")
@@ -28,30 +26,36 @@ public class ObjectController
     }
 
     @GetMapping("/objects/{objectId}")
-    public Object getObject(@PathVariable BigInteger objectId)
+    public Object getObject(@PathVariable Long objectId)
     {
         return objects.getOne(objectId);
     }
 
-    @PostMapping("/objects/")
+    @GetMapping("/objects/parentId:{parentId}")
+    public Collection<Object> getChildren(@PathVariable Long parentId)
+    {
+        return objects.getObjectsByParentId(parentId);
+    }
+
+    @PostMapping("/objects")
     public Object createObject(@RequestBody Object object)
     {
         return objects.save(object);
     }
 
     @PutMapping("/objects/{objectId}")
-    public Object updateObject(@PathVariable BigInteger objectId,
+    public Object updateObject(@PathVariable Long objectId,
                                @RequestBody Object objectRequest)
     {
         return objects.findById(objectId).map(object -> {
             object.setName(objectRequest.getName());
-            object.setParent(objectRequest.getParent());
+            object.setParentId(objectRequest.getParentId());
             return objects.save(object);
         }).orElseThrow(() -> new RuntimeException("Cannot update object with objectId = " + objectId));
     }
 
     @DeleteMapping("/objects/{objectId}")
-    public ResponseEntity deleteObject(@PathVariable BigInteger objectId)
+    public ResponseEntity deleteObject(@PathVariable Long objectId)
     {
         return objects.findById(objectId).map(object -> {
             objects.delete(object);
@@ -60,3 +64,4 @@ public class ObjectController
     }
 
 }
+

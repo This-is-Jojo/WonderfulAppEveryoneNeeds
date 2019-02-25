@@ -19,9 +19,14 @@ public class InitialData
     @EventListener
     public void appReady(ApplicationReadyEvent event)
     {
-        Object root = new Object( "Top folder", null);
-        Object child = new Object("Children", root);
+        Object root = new Object(10L, "Top folder", null);
+        Object documents = new Object("Documents", root.getObjectId());
+        Object inventory = new Object("Inventory", root.getObjectId());
+        Object testDocument = new Object("Test Document", documents.getObjectId());
+
         repository.save(root);
-        repository.save(child);
+        repository.save(documents);
+        repository.save(inventory);
+        repository.save(testDocument);
     }
 }

@@ -1,20 +1,19 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Injectable } from '@angular/core';
 import {GenericObject} from './generic-object';
 
 @Injectable({
   providedIn: 'root',
 })
-export class InMemoryDataService implements InMemoryDbService {
+export class InMemoryDataService {
   createDb() {
     const objects: GenericObject[] = [];
     const top = new GenericObject( 'Top', null, 10);
-    const documents = new GenericObject('Documents', top.id, 100);
-    const inventory = new GenericObject( 'Inventory', top.id, 200);
-    const document = new GenericObject( 'Document 1', documents.id, 110);
-    const entity = new GenericObject( 'Entity', inventory.id, 210);
-    const document2 = new GenericObject( 'Document 2', documents.id, 120);
-    const document3 = new GenericObject( 'File', documents.id, 130);
+    const documents = new GenericObject('Documents', top.objectId, 100);
+    const inventory = new GenericObject( 'Inventory', top.objectId, 200);
+    const document = new GenericObject( 'Document 1', documents.objectId, 110);
+    const entity = new GenericObject( 'Entity', inventory.objectId, 210);
+    const document2 = new GenericObject( 'Document 2', documents.objectId, 120);
+    const document3 = new GenericObject( 'File', documents.objectId, 130);
 
     objects.push(top);
     objects.push(documents);
@@ -33,6 +32,6 @@ export class InMemoryDataService implements InMemoryDbService {
   // if the heroes array is not empty, the method below returns the highest
   // hero id + 1.
   genId(objects: GenericObject[]): number {
-    return objects.length > 0 ? Math.max(...objects.map(object => object.id)) + 1 : 11;
+    return objects.length > 0 ? Math.max(...objects.map(object => object.objectId)) + 1 : 11;
   }
 }
