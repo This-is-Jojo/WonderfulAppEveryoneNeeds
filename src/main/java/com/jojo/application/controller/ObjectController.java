@@ -19,11 +19,11 @@ public class ObjectController
         this.objects = repository;
     }
 
-    @GetMapping("/objects")
-    public List<Object> getObjects()
-    {
-        return objects.findAll();
-    }
+    //@GetMapping("/objects")
+    //public List<Object> getObjects()
+    //{
+    //    return objects.findAll();
+    //}
 
     @GetMapping("/objects/{objectId}")
     public Object getObject(@PathVariable Long objectId)

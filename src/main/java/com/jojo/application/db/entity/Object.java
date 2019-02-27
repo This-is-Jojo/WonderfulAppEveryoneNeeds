@@ -11,6 +11,8 @@ public class Object
     @Id
     private Long objectId;
 
+    private long objectTypeId;
+
     private String name;
 
     private Long parentId;
@@ -20,17 +22,19 @@ public class Object
         this.objectId = ObjectIdGenerator.getInstance().generate();
     }
 
-    public Object(Long objectId, String name, Long parentId)
+    public Object(Long objectId, String name, long objectTypeId, Long parentId)
     {
         this.objectId = objectId;
         this.name = name;
+        this.objectTypeId = objectTypeId;
         this.parentId = parentId;
     }
 
-    public Object(String name, Long parentId)
+    public Object(String name, long objectTypeId, Long parentId)
     {
         this.objectId = ObjectIdGenerator.getInstance().generate();
         this.name = name;
+        this.objectTypeId = objectTypeId;
         this.parentId = parentId;
     }
 
