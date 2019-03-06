@@ -8,13 +8,15 @@ import { ObjectsComponent } from './objects/objects.component';
 
 import {HttpClientModule} from '@angular/common/http';
 import { ObjectCreationComponent } from './object-creation/object-creation.component';
+import { ObjectParametersComponent } from './object-parameters/object-parameters.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MessagesComponent,
     ObjectsComponent,
-    ObjectCreationComponent
+    ObjectCreationComponent,
+    ObjectParametersComponent
   ],
   imports: [
     BrowserModule,

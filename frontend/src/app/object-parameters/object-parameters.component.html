@@ -1,0 +1,7 @@
+<div *ngIf="parametersNamesToValuesMap">
+  <ul class="parametersMap">
+    <li *ngFor="let parameterVal of parametersNamesToValuesMap | keyvalue">
+      <p>{{parameterVal.key}}: {{parameterVal.value}}</p>
+    </li>
+  </ul>
+</div>
