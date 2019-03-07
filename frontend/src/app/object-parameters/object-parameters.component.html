@@ -1,7 +1,8 @@
-<div *ngIf="parametersNamesToValuesMap">
-  <ul class="parametersMap">
-    <li *ngFor="let parameterVal of parametersNamesToValuesMap | keyvalue">
-      <p>{{parameterVal.key}}: {{parameterVal.value}}</p>
+<p>Attributes:</p>
+<div *ngIf="attributesMap && parametersMap">
+  <ul class="attributesMap">
+    <li *ngFor="let attribute of attributesMap | keyvalue">
+      <p>{{attribute.value}}: {{parametersMap.get(attribute.key)}}</p>
     </li>
   </ul>
 </div>

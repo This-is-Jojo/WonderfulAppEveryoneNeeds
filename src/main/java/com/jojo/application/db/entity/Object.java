@@ -63,6 +63,16 @@ public class Object
         this.parentId = parentId;
     }
 
+    public void setObjectTypeId(long objectTypeId)
+    {
+        this.objectTypeId = objectTypeId;
+    }
+
+    public long getObjectTypeId()
+    {
+        return objectTypeId;
+    }
+
     @Override
     public String toString()
     {

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Location} from '@angular/common';
 import {AttributeService} from '../attribute.service';
 import {ParametersService} from '../parameters.service';
 import {MessageService} from '../message.service';
+import {ObjectsService} from '../objects.service';
 
 @Component({
   selector: 'app-object-parameters',
@@ -13,33 +13,38 @@ import {MessageService} from '../message.service';
 export class ObjectParametersComponent implements OnInit {
 
   parametersMap: Map<number, string>;
-  parametersNamesToValuesMap: Map<string, string>;
+
+  attributesMap: Map<number, string>;
 
   constructor(
     private parametersService: ParametersService,
     private attributesService: AttributeService,
+    private objectService: ObjectsService,
     private route: ActivatedRoute,
     private messageService: MessageService) {
   }
 
   ngOnInit() {
-    this.loadParameters();
+    this.loadAttributes();
+  }
+
+  loadAttributes(): void {
+    const id = +this.route.snapshot.paramMap.get('objectId');
+    this.objectService.getObjectById(id)
+      .subscribe(object => this.attributesService.getAttributesMap(object.objectTypeId).subscribe(map => {
+        this.attributesMap = new Map<number, string>();
+        Object.entries(map).map(entry => this.attributesMap.set(+entry[0], entry[1]));
+        this.loadParameters();
+      }));
   }
 
   loadParameters(): void {
     const id = +this.route.snapshot.paramMap.get('objectId');
     this.parametersService.getParametersMap(id)
       .subscribe(map => {
-        this.parametersMap = map;
-        this.loadAttrNames(map);
+        this.parametersMap = new Map<number, string>();
+        Object.entries(map).map(entry => this.parametersMap.set(+entry[0], entry[1]));
       });
-  }
-
-  loadAttrNames(parameters: Map<number, string>): void {
-    this.parametersNamesToValuesMap = new Map<string, string>();
-    Object.entries(parameters).forEach(([attrId, value]) =>
-      this.attributesService.getAttributeName(+attrId)
-        .subscribe(attrName => this.parametersNamesToValuesMap.set(attrName.response, value)));
   }
 
   private log(message: string) {

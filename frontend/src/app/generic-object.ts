@@ -9,4 +9,5 @@ export class GenericObject {
   objectId: number;
   name: string;
   parentId: number;
+  objectTypeId: number;
 }

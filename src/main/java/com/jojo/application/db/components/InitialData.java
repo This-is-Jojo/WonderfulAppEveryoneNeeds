@@ -34,6 +34,7 @@ public class InitialData
         ObjectType folderObjectType = new ObjectType("Folder");
 
         Attribute description = new Attribute(folderObjectType.getObjectTypeId(), "Description");
+        Attribute someAttr = new Attribute(folderObjectType.getObjectTypeId(), "Test attribute");
 
         Object root = new Object(10L, "Top folder", folderObjectType.getObjectTypeId(), null);
         Object documents = new Object("Documents", folderObjectType.getObjectTypeId(), root.getObjectId());
@@ -43,11 +44,17 @@ public class InitialData
         Parameter descriptionValue = new Parameter(new Parameter.ParametersPk(description.getAttrId(), root.getObjectId()));
         descriptionValue.setValue("This is top folder");
 
+        Parameter someAttrValue = new Parameter(new Parameter.ParametersPk(someAttr.getAttrId(), root.getObjectId()));
+        someAttrValue.setValue("This is test parameter");
+
+
         objectTypeRepository.save(folderObjectType);
 
         attributeRepository.save(description);
+        attributeRepository.save(someAttr);
 
         parametersRepository.save(descriptionValue);
+        parametersRepository.save(someAttrValue);
 
         repository.save(root);
         repository.save(documents);

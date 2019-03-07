@@ -21,8 +21,18 @@ export class AttributeService {
     private messageService: MessageService) {
   }
 
+  getAttributesMap(objectTypeId: number): Observable<Map<number, string>> {
+    const url = `${this.attrApiUrl}/getAttributesMapForObjectType=${objectTypeId}`;
+
+    return this.http.get<Map<number, string>>(url).pipe(
+      tap(_ => this.log(`fetched attr with id=${objectTypeId}`)),
+      catchError(this.handleError<Map<number, string>>(`getAttributesMap id=${objectTypeId}`))
+    );
+  }
+
   getAttributeName(attrId: number): Observable<StringResponse> {
     const url = `${this.attrApiUrl}/getNameOf=${attrId}`;
+
     return this.http.get<StringResponse>(url).pipe(
       tap(response => this.log(`fetched attr with id=${attrId}, response: ${response.response}`)),
       catchError(this.handleError<StringResponse>(`getAttributeName id=${attrId}`))
