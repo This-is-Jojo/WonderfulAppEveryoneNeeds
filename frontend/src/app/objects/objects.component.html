@@ -20,5 +20,6 @@
   <p>
     <a routerLink="/objects/{{currentObject.objectId}}/create">New child</a>
   </p>
-  <app-object-parameters></app-object-parameters>
+  <app-object-type [currentObject]="currentObject"></app-object-type>
+  <app-object-parameters [currentObject]="currentObject"></app-object-parameters>
 </div>

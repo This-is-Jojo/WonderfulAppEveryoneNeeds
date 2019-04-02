@@ -64,7 +64,7 @@ export class ObjectsComponent implements OnInit {
   }
 
   delete(object: GenericObject): void {
-    this.objectService.deleteObject(object).subscribe( _ => this.childrenObjects.splice(this.childrenObjects.indexOf(object, 0), 1));
+    this.objectService.deleteObject(object).subscribe( _ => this.childrenObjects.splice(this.childrenObjects.indexOf(object), 1));
   }
 
   private log(message: string) {

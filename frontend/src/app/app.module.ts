@@ -9,6 +9,7 @@ import { ObjectsComponent } from './objects/objects.component';
 import {HttpClientModule} from '@angular/common/http';
 import { ObjectCreationComponent } from './object-creation/object-creation.component';
 import { ObjectParametersComponent } from './object-parameters/object-parameters.component';
+import { ObjectTypeComponent } from './object-type/object-type.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ObjectParametersComponent } from './object-parameters/object-parameters
     MessagesComponent,
     ObjectsComponent,
     ObjectCreationComponent,
-    ObjectParametersComponent
+    ObjectParametersComponent,
+    ObjectTypeComponent
   ],
   imports: [
     BrowserModule,
