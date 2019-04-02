@@ -63,13 +63,13 @@ export class ObjectsService {
   }
 
   /** DELETE: delete object from the server */
-  deleteObject(object: GenericObject | number): Observable<GenericObject> {
+  deleteObject(object: GenericObject | number): Observable<{}> {
     const id = typeof object === 'number' ? object : object.objectId;
     const url = `${this.objectsApiUrl}/${id}`;
 
-    return this.http.delete<GenericObject>(url, httpOptions).pipe(
+    return this.http.delete(url, httpOptions).pipe(
       tap(_ => this.log(`deleted object id=${id}`)),
-      catchError(this.handleError<GenericObject>('deleteObject'))
+      catchError(this.handleError<any>('deleteObject'))
     );
   }
 

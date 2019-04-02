@@ -3,6 +3,7 @@ import {GenericObject} from '../generic-object';
 import {ObjectsService} from '../objects.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
+import {MessageService} from '../message.service';
 
 @Component({
   selector: 'app-objects',
@@ -18,7 +19,8 @@ export class ObjectsComponent implements OnInit {
     private objectService: ObjectsService,
     private route: ActivatedRoute,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -62,7 +64,10 @@ export class ObjectsComponent implements OnInit {
   }
 
   delete(object: GenericObject): void {
-    this.objectService.deleteObject(object).subscribe();
+    this.objectService.deleteObject(object).subscribe( _ => this.childrenObjects.splice(this.childrenObjects.indexOf(object, 0), 1));
   }
 
+  private log(message: string) {
+    this.messageService.add(`Object Component: ${message}`);
+  }
 }
