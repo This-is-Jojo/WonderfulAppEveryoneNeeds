@@ -1,8 +1,13 @@
 package com.jojo.application.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jojo.application.db.components.ObjectIdGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "objects")
@@ -16,6 +21,11 @@ public class Object
     private String name;
 
     private Long parentId;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.MERGE,  orphanRemoval = true)
+    @JoinColumn(name = "objectId")
+    private Set<Parameter> parameters = new HashSet<>();
 
     public Object()
     {
@@ -71,6 +81,30 @@ public class Object
     public long getObjectTypeId()
     {
         return objectTypeId;
+    }
+
+    public void setParameterValue(long attrId, String value)
+    {
+        Parameter parameter;
+        parameter = this.parameters.stream().filter( par -> par.getAttrId() == attrId).findFirst().orElse(new Parameter(new Parameter.ParametersPk(attrId, this.objectId)));
+        parameter.setValue(value);
+        parameters.add(parameter);
+    }
+
+    public String getParameterValue(long attrId)
+    {
+        Parameter parameter = this.parameters.stream().filter(par -> par.getAttrId() == attrId).findFirst().orElse(null);
+        return parameter != null ? parameter.getValue() : null;
+    }
+
+    public Map<Long, String> getParametersMap()
+    {
+        return this.parameters.stream().collect(Collectors.toMap(Parameter::getAttrId, Parameter::getValue));
+    }
+
+    public void updateParametersMap(Map<Long, String> map)
+    {
+        map.forEach(this::setParameterValue);
     }
 
     @Override

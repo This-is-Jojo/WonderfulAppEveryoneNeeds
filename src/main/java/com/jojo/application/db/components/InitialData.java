@@ -41,11 +41,14 @@ public class InitialData
         Object inventory = new Object("Inventory", folderObjectType.getObjectTypeId(), root.getObjectId());
         Object testDocument = new Object("Test Document", folderObjectType.getObjectTypeId(), documents.getObjectId());
 
-        Parameter descriptionValue = new Parameter(new Parameter.ParametersPk(description.getAttrId(), root.getObjectId()));
-        descriptionValue.setValue("This is top folder");
+        root.setParameterValue(description.getAttrId(), "Test Description");
+        root.setParameterValue(someAttr.getAttrId(), "Test Attribute Value");
 
-        Parameter someAttrValue = new Parameter(new Parameter.ParametersPk(someAttr.getAttrId(), root.getObjectId()));
-        someAttrValue.setValue("This is test parameter");
+        //Parameter descriptionValue = new Parameter(new Parameter.ParametersPk(description.getAttrId(), root.getObjectId()));
+        //descriptionValue.setValue("This is top folder");
+
+        //Parameter someAttrValue = new Parameter(new Parameter.ParametersPk(someAttr.getAttrId(), root.getObjectId()));
+        //someAttrValue.setValue("This is test parameter");
 
 
         objectTypeRepository.save(folderObjectType);
@@ -53,8 +56,8 @@ public class InitialData
         attributeRepository.save(description);
         attributeRepository.save(someAttr);
 
-        parametersRepository.save(descriptionValue);
-        parametersRepository.save(someAttrValue);
+        //parametersRepository.save(descriptionValue);
+        //parametersRepository.save(someAttrValue);
 
         repository.save(root);
         repository.save(documents);

@@ -1,8 +1,6 @@
 package com.jojo.application.db.entity;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -48,6 +46,7 @@ public class Parameter
         this.value = value;
     }
 
+    @Embeddable
     public static class ParametersPk implements Serializable
     {
         long attrId;
