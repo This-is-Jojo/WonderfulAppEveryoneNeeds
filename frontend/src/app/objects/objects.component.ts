@@ -1,9 +1,10 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {GenericObject} from '../generic-object';
 import {ObjectsService} from '../objects.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {MessageService} from '../message.service';
+import {ObjectParametersComponent} from '../object-parameters/object-parameters.component';
 
 @Component({
   selector: 'app-objects',
@@ -14,6 +15,8 @@ export class ObjectsComponent implements OnInit {
   currentObject: GenericObject;
   parentObject: GenericObject;
   childrenObjects: GenericObject[];
+  editingEnabled: boolean;
+  @ViewChild(ObjectParametersComponent) parametersComponent;
 
   constructor(
     private objectService: ObjectsService,
@@ -26,6 +29,7 @@ export class ObjectsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editingEnabled = false;
     this.getObject();
   }
 
@@ -58,13 +62,18 @@ export class ObjectsComponent implements OnInit {
     this.location.back();
   }
 
+  switchEditing(): void {
+    this.editingEnabled = !this.editingEnabled;
+  }
+
   save(): void {
     this.objectService.updateObject(this.currentObject)
-      .subscribe(() => this.goBack());
+      .subscribe();
+    this.parametersComponent.updateParameters();
   }
 
   delete(object: GenericObject): void {
-    this.objectService.deleteObject(object).subscribe( _ => this.childrenObjects.splice(this.childrenObjects.indexOf(object), 1));
+    this.objectService.deleteObject(object).subscribe(_ => this.childrenObjects.splice(this.childrenObjects.indexOf(object), 1));
   }
 
   private log(message: string) {

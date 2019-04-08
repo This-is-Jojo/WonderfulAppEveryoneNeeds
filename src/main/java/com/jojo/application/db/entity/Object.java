@@ -2,6 +2,8 @@ package com.jojo.application.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jojo.application.db.components.ObjectIdGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,9 +25,11 @@ public class Object
     private Long parentId;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.MERGE,  orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,  orphanRemoval = true)
     @JoinColumn(name = "objectId")
     private Set<Parameter> parameters = new HashSet<>();
+
+    private static final Logger logger = LogManager.getLogger(Object.class);
 
     public Object()
     {
@@ -88,6 +92,7 @@ public class Object
         Parameter parameter;
         parameter = this.parameters.stream().filter( par -> par.getAttrId() == attrId).findFirst().orElse(new Parameter(new Parameter.ParametersPk(attrId, this.objectId)));
         parameter.setValue(value);
+        logger.debug("Update parameter: {}", parameter);
         parameters.add(parameter);
     }
 

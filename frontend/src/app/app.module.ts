@@ -11,6 +11,8 @@ import { ObjectCreationComponent } from './object-creation/object-creation.compo
 import { ObjectParametersComponent } from './object-parameters/object-parameters.component';
 import { ObjectTypeComponent } from './object-type/object-type.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +25,8 @@ import { ObjectTypeComponent } from './object-type/object-type.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

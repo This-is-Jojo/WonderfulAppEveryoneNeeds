@@ -46,6 +46,15 @@ public class Parameter
         this.value = value;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Parameter{" +
+                "parametersPk=" + parametersPk +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
     @Embeddable
     public static class ParametersPk implements Serializable
     {
@@ -60,6 +69,15 @@ public class Parameter
         {
             this.attrId = attrId;
             this.objectId = objectId;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "ParametersPk{" +
+                    "attrId=" + attrId +
+                    ", objectId=" + objectId +
+                    '}';
         }
     }
 }

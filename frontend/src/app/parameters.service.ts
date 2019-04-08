@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
 @Injectable({
@@ -28,11 +28,13 @@ export class ParametersService {
     );
   }
 
-  updateParametersMap(objectId: number, map: Map<number, string>): Observable<any> {
+  updateParametersMap(objectId: number, map: []): Observable<any> {
     const url = `${this.parametersApiUrl}/${objectId}`;
-    return this.http.put<Map<number, string>>(url, map, httpOptions).pipe(
-      tap(parameter => this.log('Fetched parameter ' + parameter)),
-      catchError(this.handleError<Map<number, string>>(`getParametersMap id=${objectId}`))
+    const exportArray = Array.from(Object.entries(map));
+
+    return this.http.put<Map<number, string>>(url, exportArray, httpOptions).pipe(
+      tap(_ => this.log('Updated Parameters ' + exportArray)),
+      catchError(this.handleError<Map<number, string>>(`getParametersMap id=${objectId}, ` + exportArray))
     );
   }
 

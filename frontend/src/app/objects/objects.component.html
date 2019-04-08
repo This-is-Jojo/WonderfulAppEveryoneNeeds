@@ -1,12 +1,26 @@
-<div *ngIf="parentObject != null; else elseBlock"><a routerLink="/objects/{{parentObject.objectId}}">{{parentObject.name}}</a>
+<div *ngIf="parentObject; else elseBlock">
+  <a routerLink="/objects/{{parentObject.objectId}}">{{parentObject.name}}</a>
 </div>
 <ng-template #elseBlock>Top</ng-template>
 <div *ngIf="currentObject">
-  <p>
-    Current Object: {{currentObject.name}}
-  </p>
+  <div *ngIf="editingEnabled; else elseBlock">
+    <p>
+      <label>
+        Current Object:
+        <input [(ngModel)]="currentObject.name" placeholder="name"/>
+      </label>
+    </p>
+  </div>
+  <ng-template #elseBlock>
+    <p>
+      Current Object: {{currentObject.name}}
+    </p>
+  </ng-template>
+  <button (click)="switchEditing()">Edit: {{editingEnabled}}</button>
+
+  <button (click)="save()">Update</button>
 </div>
-<div *ngIf="childrenObjects != null">
+<div *ngIf="childrenObjects">
   <ul class="childrenObjects">
     <li *ngFor="let child of childrenObjects">
       <a routerLink="/objects/{{child.objectId}}">{{child.name}}</a>
@@ -21,5 +35,5 @@
     <a routerLink="/objects/{{currentObject.objectId}}/create">New child</a>
   </p>
   <app-object-type [currentObject]="currentObject"></app-object-type>
-  <app-object-parameters [currentObject]="currentObject"></app-object-parameters>
+  <app-object-parameters [currentObject]="currentObject" [editingEnabled]="editingEnabled" #parameters></app-object-parameters>
 </div>

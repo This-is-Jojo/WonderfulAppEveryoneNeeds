@@ -2,6 +2,8 @@ package com.jojo.application.controller;
 
 import com.jojo.application.db.entity.Object;
 import com.jojo.application.db.repository.ObjectRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import java.util.Collection;
 public class ObjectController
 {
     final private ObjectRepository objects;
+    private static final Logger logger = LogManager.getLogger(ObjectController.class);
 
     public ObjectController(ObjectRepository repository)
     {
@@ -40,6 +43,8 @@ public class ObjectController
     public Object updateObject(@PathVariable Long objectId,
                                @RequestBody Object objectRequest)
     {
+        logger.debug("Updating object: {}", objectId);
+
         return objects.findById(objectId).map(object -> {
             object.setName(objectRequest.getName());
             object.setParentId(objectRequest.getParentId());

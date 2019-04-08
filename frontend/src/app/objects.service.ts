@@ -75,7 +75,9 @@ export class ObjectsService {
 
   /** PUT: update object on the server */
   updateObject(object: GenericObject): Observable<any> {
-    return this.http.put(this.objectsApiUrl, object, httpOptions).pipe(
+    const url = `${this.objectsApiUrl}/${object.objectId}`;
+
+    return this.http.put(url, object, httpOptions).pipe(
       tap(_ => this.log(`Updated object id=${object.objectId}`)),
       catchError(this.handleError<any>('updateObject'))
     );

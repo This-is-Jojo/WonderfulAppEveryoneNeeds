@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {AttributeService} from '../attribute.service';
 import {ParametersService} from '../parameters.service';
 import {MessageService} from '../message.service';
@@ -13,8 +13,9 @@ import {GenericObject} from '../generic-object';
 export class ObjectParametersComponent implements OnInit {
 
   @Input() currentObject: GenericObject;
+  @Input() editingEnabled: boolean;
 
-  parametersMap: Map<number, string>;
+  parameters: any;
 
   attributesMap: Map<number, string>;
 
@@ -41,9 +42,13 @@ export class ObjectParametersComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('objectId');
     this.parametersService.getParametersMap(id)
       .subscribe(map => {
-        this.parametersMap = new Map<number, string>();
-        Object.entries(map).map(entry => this.parametersMap.set(+entry[0], entry[1]));
+        this.parameters = map;
       });
+  }
+
+  updateParameters(): void {
+    this.parametersService.updateParametersMap(this.currentObject.objectId, this.parameters)
+      .subscribe();
   }
 
   private log(message: string) {

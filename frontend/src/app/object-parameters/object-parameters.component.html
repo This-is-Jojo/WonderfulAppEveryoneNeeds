@@ -1,8 +1,15 @@
 <p>Attributes:</p>
-<div *ngIf="attributesMap && parametersMap">
+<div *ngIf="attributesMap && parameters">
   <ul class="attributesMap">
-    <li *ngFor="let attribute of attributesMap | keyvalue">
-      <p>{{attribute.value}}: {{parametersMap.get(attribute.key)}}</p>
+    <li *ngFor="let attribute of attributesMap | keyvalue; let thisIndex = index">
+      <div *ngIf="!editingEnabled; else elseBlock">
+        <p>{{attribute.value}}: {{parameters[attribute.key]}}</p>
+      </div>
+      <ng-template #elseBlock>
+        <label> {{attribute.value}}
+          <input name="'Parameter:' + {{thisIndex}}" [(ngModel)]="parameters[attribute.key]"/>
+        </label>
+      </ng-template>
     </li>
   </ul>
 </div>
