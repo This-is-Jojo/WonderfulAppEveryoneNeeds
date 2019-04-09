@@ -23,11 +23,17 @@ export class ObjectTypeService {
   getObjectTypeById(objectTypeId: number): Observable<ObjectType> {
     const url = `${this.objectsApiUrl}/${objectTypeId}`;
     return this.http.get<ObjectType>(url).pipe(
-      tap(_ => this.log(`fetched object id=${objectTypeId}`)),
+      tap(_ => this.log(`fetched object type id=${objectTypeId}`)),
       catchError(this.handleError<ObjectType>(`getObjectById id=${objectTypeId}`))
     );
   }
 
+  getObjectTypesList(): Observable<ObjectType[]> {
+    return this.http.get<ObjectType[]>(this.objectsApiUrl).pipe(
+      tap(_ => this.log('Loaded object types list')),
+      catchError(this.handleError<any>('getObjectTypesList()'))
+    );
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

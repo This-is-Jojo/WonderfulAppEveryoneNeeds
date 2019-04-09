@@ -4,6 +4,8 @@ import com.jojo.application.db.entity.ObjectType;
 import com.jojo.application.db.repository.ObjectTypeRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ObjectTypeController
@@ -21,20 +23,25 @@ public class ObjectTypeController
         return this.objectTypes.getOne(objectTypeId);
     }
 
+    @GetMapping("/objectTypes")
+    public List<ObjectType> getObjectTypes()
+    {
+        return this.objectTypes.findAll();
+    }
+
     @PostMapping("/objectTypes")
-    public Object createObject(@RequestBody ObjectType objectType)
+    public Object createObjectType(@RequestBody ObjectType objectType)
     {
         return objectTypes.save(objectType);
     }
 
     @PutMapping("/objectTypes/{objectTypeId}")
-    public Object updateObject(@PathVariable Long objectTypeId,
+    public Object updateObjectType(@PathVariable Long objectTypeId,
                                @RequestBody ObjectType objectRequest)
     {
-        return objectTypes.findById(objectTypeId).map(object -> {
-            object.setName(objectRequest.getName());
-            object.setName(objectRequest.getName());
-            return objectTypes.save(object);
+        return objectTypes.findById(objectTypeId).map(objectType -> {
+            objectType.setName(objectRequest.getName());
+            return objectTypes.save(objectType);
         }).orElseThrow(() -> new RuntimeException("Cannot update objectType with objectTypeId = " + objectTypeId));
     }
 }

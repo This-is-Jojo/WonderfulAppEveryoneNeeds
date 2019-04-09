@@ -1,9 +1,9 @@
 export class GenericObject {
 
-  constructor( name: string, parentId?: number, objectId?: number) {
-    this.objectId = objectId;
+  constructor( name: string, parentId?: number, objectTypeId?: number) {
     this.name = name;
     this.parentId = parentId;
+    this.objectTypeId = objectTypeId;
   }
 
   objectId: number;

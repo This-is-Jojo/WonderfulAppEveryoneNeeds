@@ -4,6 +4,13 @@
 <label>Name:
   <input #objectName/>
 </label>
+<div *ngIf="objectTypes">
+  <p>Object Type:
+    <select [ngModel]="selectedObjectTypeId" (ngModelChange)="selectObjectType($event)">
+      <option [value]="currentObjectType.objectTypeId" *ngFor="let currentObjectType of objectTypes">{{currentObjectType.name}}</option>
+    </select>
+  </p>
+</div>
 <p>
   <button (click)="createObject(objectName.value); objectName.value=''">
     Create

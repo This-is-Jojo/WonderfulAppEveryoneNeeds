@@ -117,6 +117,7 @@ public class Object
     {
         return "Object{" +
                 "objectId=" + objectId +
+                ", objectTypeId=" + objectTypeId +
                 ", name='" + name + '\'' +
                 ", parentId=" + parentId +
                 '}';

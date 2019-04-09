@@ -11,7 +11,9 @@ import javax.persistence.Table;
 public class ObjectType
 {
     @Id
-    long objectTypeId;
+    private long objectTypeId;
+
+    private String name;
 
     public ObjectType()
     {
@@ -23,8 +25,6 @@ public class ObjectType
         this.objectTypeId = ObjectIdGenerator.getInstance().generate();
         this.name = name;
     }
-
-    String name;
 
     public long getObjectTypeId()
     {
