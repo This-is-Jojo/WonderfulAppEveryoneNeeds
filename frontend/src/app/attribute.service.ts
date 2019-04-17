@@ -5,6 +5,7 @@ import {MessageService} from './message.service';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {StringResponse} from './string-response';
+import {Attribute} from './attribute';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -19,6 +20,15 @@ export class AttributeService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService) {
+  }
+
+  getAttributesByObjectType(objectTypeId: number): Observable<Attribute[]> {
+    const url = `${this.attrApiUrl}/${objectTypeId}`;
+
+    return this.http.get<Attribute[]>(url).pipe(
+      tap(_ => this.log(`received attributes for objectTypeId=${objectTypeId}`)),
+      catchError(this.handleError<any>(`getAttributesByObjectType id=${objectTypeId}`))
+    );
   }
 
   getAttributesMap(objectTypeId: number): Observable<Map<number, string>> {

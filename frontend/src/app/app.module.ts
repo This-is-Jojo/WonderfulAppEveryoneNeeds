@@ -12,6 +12,9 @@ import { ObjectParametersComponent } from './object-parameters/object-parameters
 import { ObjectTypeComponent } from './object-type/object-type.component';
 
 import { FormsModule } from '@angular/forms';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { ObjectTypeListComponent } from './admin-panel/object-type-list/object-type-list.component';
+import { ObjectTypeViewComponent } from './admin-panel/object-type-view/object-type-view.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { FormsModule } from '@angular/forms';
     ObjectsComponent,
     ObjectCreationComponent,
     ObjectParametersComponent,
-    ObjectTypeComponent
+    ObjectTypeComponent,
+    AdminPanelComponent,
+    ObjectTypeListComponent,
+    ObjectTypeViewComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,6 @@
+<nav>
+  <a routerLink="/admin" routerLinkActive="active">Admin Panel</a>
+</nav>
 <div *ngIf="parentObject; else elseBlock">
   <a routerLink="/objects/{{parentObject.objectId}}">{{parentObject.name}}</a>
 </div>

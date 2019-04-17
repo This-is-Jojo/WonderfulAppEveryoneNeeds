@@ -32,9 +32,19 @@ public class InitialData
     public void appReady(ApplicationReadyEvent event)
     {
         ObjectType folderObjectType = new ObjectType("Folder");
+        ObjectType deviceObjectType = new ObjectType("Device");
 
         Attribute description = new Attribute(folderObjectType.getObjectTypeId(), "Description");
         Attribute someAttr = new Attribute(folderObjectType.getObjectTypeId(), "Test attribute");
+
+        folderObjectType.addAtribute(description);
+        folderObjectType.addAtribute(someAttr);
+
+        Attribute deviceDescription = new Attribute(deviceObjectType.getObjectTypeId(), "Description");
+        Attribute deviceModel = new Attribute(deviceObjectType.getObjectTypeId(), "Model");
+
+        deviceObjectType.addAtribute(deviceDescription);
+        deviceObjectType.addAtribute(deviceModel);
 
         Object root = new Object(10L, "Top folder", folderObjectType.getObjectTypeId(), null);
         Object documents = new Object("Documents", folderObjectType.getObjectTypeId(), root.getObjectId());
@@ -44,20 +54,8 @@ public class InitialData
         root.setParameterValue(description.getAttrId(), "Test Description");
         root.setParameterValue(someAttr.getAttrId(), "Test Attribute Value");
 
-        //Parameter descriptionValue = new Parameter(new Parameter.ParametersPk(description.getAttrId(), root.getObjectId()));
-        //descriptionValue.setValue("This is top folder");
-
-        //Parameter someAttrValue = new Parameter(new Parameter.ParametersPk(someAttr.getAttrId(), root.getObjectId()));
-        //someAttrValue.setValue("This is test parameter");
-
-
         objectTypeRepository.save(folderObjectType);
-
-        attributeRepository.save(description);
-        attributeRepository.save(someAttr);
-
-        //parametersRepository.save(descriptionValue);
-        //parametersRepository.save(someAttrValue);
+        objectTypeRepository.save(deviceObjectType);
 
         repository.save(root);
         repository.save(documents);

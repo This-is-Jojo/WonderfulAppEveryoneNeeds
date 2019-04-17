@@ -1,0 +1,16 @@
+<div *ngIf="currentObjectType">
+  <p>
+    {{currentObjectType.objectTypeId}} {{currentObjectType.name}}
+  </p>
+  <ul class="attributes">
+    <li *ngFor="let attribute of attributes"
+        [class.selected]="attribute === currentAttribute"
+        (click)="onSelect(attribute)">
+      <span class="badge">{{attribute.name}}</span>
+    </li>
+  </ul>
+</div>
+<div *ngIf="currentAttribute">
+  <p>{{currentAttribute.attrId}} {{currentAttribute.name}} {{currentAttribute.objectTypeId}}</p>
+</div>
+

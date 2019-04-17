@@ -1,0 +1,19 @@
+<nav>
+  <a routerLink="" routerLinkActive="active">Top</a>
+</nav>
+<table>
+  <tr>
+    <td>
+      <app-object-type-list (selectObjectType)="onSelectObjectType($event)"></app-object-type-list>
+    </td>
+    <td>
+      <app-object-type-view [currentObjectType]="currentObjectType"></app-object-type-view>
+    </td>
+  </tr>
+</table>
+<div *ngIf="currentObjectType">
+  <p>
+    Selected: {{currentObjectType.name}} {{currentObjectType.objectTypeId}}
+  </p>
+</div>
+<router-outlet></router-outlet>
