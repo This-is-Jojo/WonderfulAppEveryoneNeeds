@@ -20,6 +20,22 @@ export class ObjectTypeService {
               private messageService: MessageService) {
   }
 
+  createObjectType(newObjectType: ObjectType): Observable<any> {
+    return this.http.post<ObjectType>(this.objectsApiUrl, newObjectType).pipe(
+      tap(_ => this.log(`created object type: ${newObjectType.name}`)),
+      catchError(this.handleError<ObjectType>(`createObjectType name=${newObjectType.name}`))
+    );
+  }
+
+  deleteObjectType(objectTypeId: number): Observable<any> {
+    const url = `${this.objectsApiUrl}/${objectTypeId}`;
+
+    return this.http.delete(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted objectType: ${objectTypeId}`)),
+      catchError(this.handleError<ObjectType>(`deleteObjectType objectTypeId=${objectTypeId}`))
+    );
+  }
+
   getObjectTypeById(objectTypeId: number): Observable<ObjectType> {
     const url = `${this.objectsApiUrl}/${objectTypeId}`;
     return this.http.get<ObjectType>(url).pipe(

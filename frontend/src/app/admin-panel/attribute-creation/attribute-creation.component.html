@@ -1,0 +1,14 @@
+<p>
+  Create Attribute:
+</p>
+<label>Name:
+  <input #attributeName/>
+</label>
+<p>
+  <button (click)="createAttribute(attributeName.value); attributeName.value=''">
+    Create
+  </button>
+</p>
+<p>
+  <button (click)="goBack()">go back</button>
+</p>

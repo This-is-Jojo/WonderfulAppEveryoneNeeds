@@ -7,10 +7,16 @@
         [class.selected]="attribute === currentAttribute"
         (click)="onSelect(attribute)">
       <span class="badge">{{attribute.name}}</span>
+      <button (click)="delete(attribute)">
+        X
+      </button>
     </li>
   </ul>
-</div>
-<div *ngIf="currentAttribute">
-  <p>{{currentAttribute.attrId}} {{currentAttribute.name}} {{currentAttribute.objectTypeId}}</p>
+  <div *ngIf="currentAttribute">
+    <p>{{currentAttribute.attrId}} {{currentAttribute.name}} {{currentAttribute.objectTypeId}}</p>
+  </div>
+  <p>
+    <a routerLink="attribute/{{currentObjectType.objectTypeId}}/create">Add attribute</a>
+  </p>
 </div>
 

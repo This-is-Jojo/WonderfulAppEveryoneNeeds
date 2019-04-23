@@ -6,6 +6,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {StringResponse} from './string-response';
 import {Attribute} from './attribute';
+import {ObjectType} from './object-type';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -20,6 +21,22 @@ export class AttributeService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService) {
+  }
+
+  createAttribute(newAttribute: Attribute): Observable<any> {
+    return this.http.post<ObjectType>(this.attrApiUrl, newAttribute).pipe(
+      tap(_ => this.log(`created attribute: ${newAttribute.name}`)),
+      catchError(this.handleError<ObjectType>(`createAttribute name=${newAttribute.name}`))
+    );
+  }
+
+  deleteAttribute(attrId: number): Observable<any> {
+    const url = `${this.attrApiUrl}/${attrId}`;
+
+    return this.http.delete(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted attribute: ${attrId}`)),
+      catchError(this.handleError<ObjectType>(`deleteAttribute name=${attrId}`))
+    );
   }
 
   getAttributesByObjectType(objectTypeId: number): Observable<Attribute[]> {

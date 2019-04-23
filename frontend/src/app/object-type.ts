@@ -1,4 +1,9 @@
 export class ObjectType {
-  objectTypeId: number;
   name: string;
+  objectTypeId: number;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+
 }

@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ObjectTypeListComponent } from './admin-panel/object-type-list/object-type-list.component';
 import { ObjectTypeViewComponent } from './admin-panel/object-type-view/object-type-view.component';
+import { ObjectTypeCreationComponent } from './admin-panel/object-type-creation/object-type-creation.component';
+import { AttributeCreationComponent } from './admin-panel/attribute-creation/attribute-creation.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { ObjectTypeViewComponent } from './admin-panel/object-type-view/object-t
     ObjectTypeComponent,
     AdminPanelComponent,
     ObjectTypeListComponent,
-    ObjectTypeViewComponent
+    ObjectTypeViewComponent,
+    ObjectTypeCreationComponent,
+    AttributeCreationComponent
   ],
   imports: [
     BrowserModule,

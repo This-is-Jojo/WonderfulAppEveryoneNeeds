@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {ObjectType} from '../../object-type';
 import {AttributeService} from '../../attribute.service';
 import {Attribute} from '../../attribute';
+import {GenericObject} from '../../generic-object';
 
 @Component({
   selector: 'app-object-type-view',
@@ -30,6 +31,10 @@ export class ObjectTypeViewComponent implements OnInit, OnChanges {
 
   onSelect(attr: Attribute) {
     this.currentAttribute = attr;
+  }
+
+  delete(attribute: Attribute): void {
+    this.attributeService.deleteAttribute(attribute.attrId).subscribe(_ => this.attributes.splice(this.attributes.indexOf(attribute), 1));
   }
 
   loadAttributes() {
