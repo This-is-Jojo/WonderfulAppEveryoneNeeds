@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public interface ParametersRepository extends JpaRepository<Parameter, Parameter.ParametersPk>
 {
+    List<Parameter> getParametersByParametersPk_AttrId(Long attrId);
+
     List<Parameter> getParametersByParametersPk_ObjectId(Long objectId);
 
     default Map<Long, String> getParametersMapByObjectId(Long objectId)

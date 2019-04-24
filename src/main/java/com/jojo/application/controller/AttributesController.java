@@ -1,8 +1,10 @@
 package com.jojo.application.controller;
 
 import com.jojo.application.db.entity.Attribute;
+import com.jojo.application.db.entity.Parameter;
 import com.jojo.application.db.repository.AttributeRepository;
 import com.jojo.application.db.repository.ObjectTypeRepository;
+import com.jojo.application.db.repository.ParametersRepository;
 import com.jojo.application.response.StringResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,13 @@ public class AttributesController
 {
     final private AttributeRepository repository;
     final private ObjectTypeRepository objectTypeRepository;
+    final private ParametersRepository parameters;
 
-    public AttributesController(AttributeRepository repository, ObjectTypeRepository objectTypeRepository)
+    public AttributesController(AttributeRepository repository, ObjectTypeRepository objectTypeRepository, ParametersRepository parameters)
     {
         this.repository = repository;
         this.objectTypeRepository = objectTypeRepository;
+        this.parameters = parameters;
     }
 
     @GetMapping("/attributes/getNameOf={attrId}")
@@ -36,13 +40,13 @@ public class AttributesController
     }
 
     @PostMapping("/attributes")
-    public Object createObjectType(@RequestBody Attribute attribute)
+    public Attribute createAttribute(@RequestBody Attribute attribute)
     {
         return repository.save(attribute);
     }
 
     @PutMapping("/attributes/{attrId}")
-    public Object updateObjectType(@PathVariable Long attrId,
+    public Attribute updateAttribute(@PathVariable Long attrId,
                                    @RequestBody Attribute attributeRequest)
     {
         return repository.findById(attrId).map(attribute -> {
@@ -60,6 +64,9 @@ public class AttributesController
     @DeleteMapping("/attributes/{attrId}")
     public ResponseEntity deleteAttribute(@PathVariable Long attrId)
     {
+        List<Parameter> parametersByAttribute = parameters.getParametersByParametersPk_AttrId(attrId);
+        parameters.deleteAll(parametersByAttribute);
+
         return repository.findById(attrId).map(attribute -> {
             repository.delete(attribute);
             return ResponseEntity.ok().build();

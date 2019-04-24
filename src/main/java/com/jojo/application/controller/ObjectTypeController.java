@@ -1,7 +1,10 @@
 package com.jojo.application.controller;
 
+import com.jojo.application.db.entity.Object;
 import com.jojo.application.db.entity.ObjectType;
+import com.jojo.application.db.repository.ObjectRepository;
 import com.jojo.application.db.repository.ObjectTypeRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +15,12 @@ import java.util.List;
 public class ObjectTypeController
 {
     final private ObjectTypeRepository objectTypes;
+    final private ObjectRepository objects;
 
-    public ObjectTypeController(ObjectTypeRepository repository)
+    public ObjectTypeController(ObjectTypeRepository repository, ObjectRepository objects)
     {
         this.objectTypes = repository;
+        this.objects = objects;
     }
 
     @GetMapping("/objectTypes/{objectTypeId}")
@@ -31,14 +36,14 @@ public class ObjectTypeController
     }
 
     @PostMapping("/objectTypes")
-    public Object createObjectType(@RequestBody ObjectType objectType)
+    public ObjectType createObjectType(@RequestBody ObjectType objectType)
     {
         return objectTypes.save(objectType);
     }
 
     @PutMapping("/objectTypes/{objectTypeId}")
-    public Object updateObjectType(@PathVariable Long objectTypeId,
-                               @RequestBody ObjectType objectRequest)
+    public ObjectType updateObjectType(@PathVariable Long objectTypeId,
+                                       @RequestBody ObjectType objectRequest)
     {
         return objectTypes.findById(objectTypeId).map(objectType -> {
             objectType.setName(objectRequest.getName());
@@ -47,8 +52,15 @@ public class ObjectTypeController
     }
 
     @DeleteMapping("/objectTypes/{objectTypeId}")
-    public ResponseEntity deleteAttribute(@PathVariable Long objectTypeId)
+    public ResponseEntity deleteObjectType(@PathVariable Long objectTypeId)
     {
+        List<Object> objectsUsingObjectType = objects.getObjectsByObjectTypeId(objectTypeId);
+        if(!objectsUsingObjectType.isEmpty())
+        {
+            return ResponseEntity.badRequest()
+                    .body("Cannot delete Object Type that is currently used by objects: " + objectsUsingObjectType);
+        }
+
         return objectTypes.findById(objectTypeId).map(objectType -> {
             objectTypes.delete(objectType);
             return ResponseEntity.ok().build();

@@ -36,7 +36,11 @@ export class ObjectTypeListComponent implements OnInit {
 
   delete(objectType: ObjectType): void {
     this.objectTypeService.deleteObjectType(objectType.objectTypeId)
-      .subscribe(_ => this.objectTypeList.splice(this.objectTypeList.indexOf(objectType), 1));
+      .subscribe(result => {
+        if (result) {
+          this.objectTypeList.splice(this.objectTypeList.indexOf(objectType), 1);
+        }
+      });
   }
 
   onSelect(objectType: ObjectType) {

@@ -3,10 +3,10 @@
 </nav>
 <table>
   <tr>
-    <td>
+    <td id="object-types">
       <app-object-type-list (selectObjectType)="onSelectObjectType($event)"></app-object-type-list>
     </td>
-    <td>
+    <td id="attributes">
       <app-object-type-view [currentObjectType]="currentObjectType"></app-object-type-view>
     </td>
   </tr>

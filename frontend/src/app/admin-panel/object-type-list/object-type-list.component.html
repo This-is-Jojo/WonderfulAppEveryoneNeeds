@@ -4,7 +4,7 @@
         [class.selected]="objectType === currentObjectType"
         (click)="onSelect(objectType)">
       <span class="badge">{{objectType.name}}</span>
-      <button (click)="delete(objectType)">
+      <button (click)="delete(objectType)" style="float: right;">
         X
       </button>
     </li>
